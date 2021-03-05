@@ -57,7 +57,6 @@ function parseFile(fileName) {
       hashmap = output(segments[i], hashmap);
     }
 
-    //printMe(hashmap);
     //relationships
     let famHashmap = new Map();
     let relaArr = relationships.split(" 0 ");
@@ -74,7 +73,7 @@ function parseFile(fileName) {
         Children: [],
       };
       let line = relaArr[i].split(" ");
-      console.log(line);
+
       for (let j = 0; j < line.length; j++) {
         if (line[j] == "FAM") {
           currentFam.ID = line[j - 1].replace("@", "").replace("@", "");
@@ -139,7 +138,9 @@ function parseFile(fileName) {
       }
       famHashmap.set(currentFam.ID, currentFam);
     }
-    console.log(famHashmap);
+
+    printMe(hashmap);
+    printFam(famHashmap);
     return hashmap;
   });
 }
@@ -225,6 +226,15 @@ function output(text, hashmap) {
 function printMe(hashmap) {
   console.log("#################################");
   console.log("# \t\t Individuals:");
+  for (const [key, value] of hashmap) {
+    console.log(value);
+  }
+  console.log("#################################");
+}
+
+function printFam(hashmap) {
+  console.log("#################################");
+  console.log("# \t\t Familes:");
   for (const [key, value] of hashmap) {
     console.log(value);
   }
