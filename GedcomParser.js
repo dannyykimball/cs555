@@ -57,12 +57,89 @@ function parseFile(fileName) {
       hashmap = output(segments[i], hashmap);
     }
 
-    printMe(hashmap);
+    //printMe(hashmap);
     //relationships
-    let relaArr = relationships.split(" ");
+    let famHashmap = new Map();
+    let relaArr = relationships.split(" 0 ");
+    relaArr.pop();
+    for (i in relaArr) {
+      let currentFam = {
+        ID: "",
+        MarriageDate: "NA",
+        DivorcedDate: "NA",
+        HusbID: "",
+        HusbName: "",
+        WifeID: "",
+        WifeName: "",
+        Children: [],
+      };
+      let line = relaArr[i].split(" ");
+      console.log(line);
+      for (let j = 0; j < line.length; j++) {
+        if (line[j] == "FAM") {
+          currentFam.ID = line[j - 1].replace("@", "").replace("@", "");
+        } else if (line[j] == "HUSB") {
+          currentFam.HusbID = line[j + 1].replace("@", "").replace("@", "");
+          currentFam.HusbName = hashmap.get(currentFam.HusbID).Name;
+          j++;
+        } else if (line[j] == "WIFE") {
+          currentFam.WifeID = line[j + 1].replace("@", "").replace("@", "");
+          currentFam.WifeName = hashmap.get(currentFam.WifeID).Name;
+          j++;
+        } else if (line[j] == "CHIL") {
+          currentFam.Children.push(
+            line[j + 1].replace("@", "").replace("@", "")
+          );
+          j++;
+        } else if (line[j] == "MARR") {
+          let monthConvert = new Map();
+          monthConvert.set("JAN", 1);
+          monthConvert.set("FEB", 2);
+          monthConvert.set("MAR", 3);
+          monthConvert.set("APR", 4);
+          monthConvert.set("MAY", 5);
+          monthConvert.set("JUN", 6);
+          monthConvert.set("JUL", 7);
+          monthConvert.set("AUG", 8);
+          monthConvert.set("SEP", 9);
+          monthConvert.set("OCT", 10);
+          monthConvert.set("NOV", 11);
+          monthConvert.set("DEC", 12);
 
-    // console.log(relaArr);
+          currentFam.MarriageDate =
+            monthConvert.get(line[j + 4]) +
+            "/" +
+            line[j + 3] +
+            "/" +
+            line[j + 5];
+          j = j + 5;
+        } else if (line[j] == "DIV") {
+          let monthConvert = new Map();
+          monthConvert.set("JAN", 1);
+          monthConvert.set("FEB", 2);
+          monthConvert.set("MAR", 3);
+          monthConvert.set("APR", 4);
+          monthConvert.set("MAY", 5);
+          monthConvert.set("JUN", 6);
+          monthConvert.set("JUL", 7);
+          monthConvert.set("AUG", 8);
+          monthConvert.set("SEP", 9);
+          monthConvert.set("OCT", 10);
+          monthConvert.set("NOV", 11);
+          monthConvert.set("DEC", 12);
 
+          currentFam.DivorcedDate =
+            monthConvert.get(line[j + 4]) +
+            "/" +
+            line[j + 3] +
+            "/" +
+            line[j + 5];
+          j = j + 5;
+        }
+      }
+      famHashmap.set(currentFam.ID, currentFam);
+    }
+    console.log(famHashmap);
     return hashmap;
   });
 }
