@@ -42,12 +42,13 @@ function parseFile(fileName) {
     let segments = [];
     let segment = "";
     for (let i = 0; i < fileText.length - 1; i++) {
-      if (fileText[i].includes("INDI")) {
+      if (fileText[i].includes("INDI") || fileText[i].includes("0 @F1@ FAM")) {
         segments.push(segment);
         segment = "";
       }
       segment = segment + fileText[i] + " ";
     }
+    let relationships = segment;
     segments.shift();
 
     let hashmap = new Map();
@@ -56,7 +57,12 @@ function parseFile(fileName) {
       hashmap = output(segments[i], hashmap);
     }
 
-    console.log(hashmap.get("I20").Name);
+    printMe(hashmap);
+    //relationships
+    let relaArr = relationships.split(" ");
+
+    // console.log(relaArr);
+
     return hashmap;
   });
 }
@@ -74,8 +80,10 @@ function output(text, hashmap) {
     Age: "",
     Alive: true,
     Death: "",
-    SpouseFamily: [],
-    ChildOfFamily: [],
+    SpouseFamily: "",
+    ChildOfFamily: "",
+    SpouseID: "",
+    Children: [],
   };
   for (let i = 0; i < textArr.length; i++) {
     if (textArr[i].includes("INDI")) {
@@ -90,9 +98,36 @@ function output(text, hashmap) {
       person.Gender = textArr[i + 1];
       i++;
     } else if (textArr[i] == "BIRT") {
+      let monthConvert = new Map();
+      monthConvert.set("JAN", 1);
+      monthConvert.set("FEB", 2);
+      monthConvert.set("MAR", 3);
+      monthConvert.set("APR", 4);
+      monthConvert.set("MAY", 5);
+      monthConvert.set("JUN", 6);
+      monthConvert.set("JUL", 7);
+      monthConvert.set("AUG", 8);
+      monthConvert.set("SEP", 9);
+      monthConvert.set("OCT", 10);
+      monthConvert.set("NOV", 11);
+      monthConvert.set("DEC", 12);
+
       person.Birthday =
-        textArr[i + 3] + " " + textArr[i + 4] + " " + textArr[i + 5];
+        monthConvert.get(textArr[i + 4]) +
+        "/" +
+        textArr[i + 3] +
+        "/" +
+        textArr[i + 5];
       i = i + 5;
+
+      let today = new Date();
+      let birthDate = new Date(person.Birthday);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      let m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < 0)) {
+        age--;
+      }
+      person.Age = age;
     } else if (textArr[i] == "DEAT") {
       person.Alive = false;
       person.Death =
@@ -108,6 +143,15 @@ function output(text, hashmap) {
   hashmap.set(person.ID, person);
 
   return hashmap;
+}
+
+function printMe(hashmap) {
+  console.log("#################################");
+  console.log("# \t\t Individuals:");
+  for (const [key, value] of hashmap) {
+    console.log(value);
+  }
+  console.log("#################################");
 }
 
 parseFile("MyFamily.ged");
