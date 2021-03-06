@@ -239,21 +239,33 @@ function output(text, hashmap) {
 }
 
 function printMe(hashmap) {
-  console.log("#################################");
+  console.log("####################################################################################################################################");
   console.log("# \t\t Individuals:");
+  console.log("#   ID \t\t Name \t     Gender \t Birthday      Age\tAlive \t   Death\tSpouseID \t Children");
+  console.log("#");
   for (const [key, value] of hashmap) {
-    console.log(value);
+    console.log("#   " + value.ID + "\t  " + value.Name + ((value.Name.length < 14)? "\t\t" : "\t") + 
+    value.Gender + "\t" + value.Birthday + "\t" + value.Age + 
+    "\t" + value.Alive + "\t   " + ((value.Death.length < 1)? "N/A" : value.Death) + ((value.Death.length < 1)? "\t\t" : "\t") +
+     ((value.SpouseID.length < 1)? "N/A" : value.SpouseID) + "\t\t" + ((value.Children.length < 1)? "N/A" : value.Children))
   }
-  console.log("#################################");
+  console.log("####################################################################################################################################");
 }
 
+
 function printFam(hashmap) {
-  console.log("#################################");
-  console.log("# \t\t Familes:");
+  console.log("####################################################################################################################################");
+  console.log("# \t\t Families:");
+  console.log("#   ID \t Married \t Divorced   HusbandID    Husband Name \t\t WifeID \t Wife Name \t\t Children");
+  console.log("#");
   for (const [key, value] of hashmap) {
-    console.log(value);
+    console.log("#   " + value.ID + "\t  " + value.MarriageDate + ((value.MarriageDate.length < 3)? "\t\t" : "\t") + 
+    "\t" + value.DivorcedDate + "\t" + value.HusbID
+    + "\t" + value.HusbName + ((value.HusbName.length < 8)? "\t\t\t" : "\t\t") + value.WifeID + "\t\t" +
+    value.WifeName + ((value.WifeName.length < 8) ? "\t\t\t" : ((value.WifeName.length > 15) ? "\t" : "\t\t")) + 
+    ((value.Children.length < 2)? "N/A" : value.Children))
   }
-  console.log("#################################");
+  console.log("####################################################################################################################################");
 }
 
 parseFile("MyFamily.ged");
