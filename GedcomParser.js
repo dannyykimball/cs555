@@ -57,6 +57,21 @@ function parseFile(fileName) {
       hashmap = output(segments[i], hashmap);
     }
 
+    for (const [key, value] of hashmap) {
+      let fams = value.SpouseFamily;
+      let famc = value.ChildOfFamily;
+      for (const [key2, value2] of hashmap) {
+        if (fams == value2.SpouseFamily && key != key2) {
+          //set to each other
+          hashmap.get(key).SpouseID = value2.ID;
+          hashmap.get(key2).SpouseID = value.ID;
+        }
+        if (famc == value2.SpouseFamily && value2.SpouseFamily != "") {
+          hashmap.get(key2).Children.push(value.ID);
+        }
+      }
+    }
+
     //relationships
     let famHashmap = new Map();
     let relaArr = relationships.split(" 0 ");
