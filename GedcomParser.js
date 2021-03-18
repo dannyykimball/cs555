@@ -3,6 +3,7 @@ const fs = require("fs");
 //run this to test the code
 //File to be parsed must be in the same folder as this
 function parseFile(fileName) {
+  //Sprint 1
   //takes in a file name, then turns it into an array split by lines
   let fileText;
   fs.readFile(fileName, (e, data) => {
@@ -283,43 +284,39 @@ function printFam(hashmap) {
   );
 }
 
-function upcomingBirthdays(hashmap){
-//returns a list containing all the people who have a birthday within the next 30 days
+function upcomingBirthdays(hashmap) {
+  //returns a list containing all the people who have a birthday within the next 30 days
   let uB = [];
   let today = new Date();
   //search through the birthdays of all people
-  for(const [key,value] in hashmap){
+  for (const [key, value] in hashmap) {
     //set the birthday to be this year
     let birthday = new Date(value.Birthday);
     birthday.setFullYear(today.getFullYear());
     //setting the day 30 days from now to check
     let future = new Date();
-    future.setDate(future.getDate()+30);
-    //set upcoming birthday to be the difference between the birthday and today 
+    future.setDate(future.getDate() + 30);
+    //set upcoming birthday to be the difference between the birthday and today
     let ub = new Date(birthday - today);
     //check to see if the upcoming birthday is after today but within the next 30 days
-    if(future > ub && ub > today)
-    //add the birthday to the list of upcoming birthdays if it is
+    if (future > ub && ub > today)
+      //add the birthday to the list of upcoming birthdays if it is
       uB.push(value);
   }
   //return all the birthdays
   return uB;
 }
 
-function birthBeforeMarriage(hashmap){
+function birthBeforeMarriage(hashmap) {
   //checks to see if the individuals wedding day is after the day they were born
-  for(const[key,value] in hashmap){
+  for (const [key, value] in hashmap) {
     let b4 = [];
-    let wedding = new Date (value.MarriageDate());
+    let wedding = new Date(value.MarriageDate());
     let birth = new Date(value.birthDate);
-    if(wedding - birth <= 0)
-      b4.push(value);
+    if (wedding - birth <= 0) b4.push(value);
   }
   return b4;
 }
-
-
-
 
 parseFile("MyFamily.ged");
 
