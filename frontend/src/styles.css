@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  width: 100%;
+  background-color: #dccde8;
+  font-size: 40pt;
+  text-align: center;
+}
+
+.table {
+  width: 80%;
+  margin: auto;
+  width: 50%;
+  border: 3px solid black;
+  margin-top: 50px;
+  padding: 10px;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+}
+
+.col {
+}
+
+/* black
+00100B
+
+cyan
+14BDEB
+
+light
+DCCDE8
+
+medium
+D99AC5
+
+dark
+B37BA4 */
