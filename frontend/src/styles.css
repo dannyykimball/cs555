@@ -27,6 +27,14 @@ header {
   background-color: rgb(223, 164, 183);
 }
 
+.subbbTitleRow {
+  font-size: 20pt;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  width: 100%;
+  display: flex;
+  background-color: rgb(160, 150, 245);
+}
+
 .subTitleRow {
   font-size: 14pt;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;

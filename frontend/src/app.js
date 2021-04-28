@@ -14,7 +14,13 @@ export default function App() {
   if (!family) {
     return (
       <div>
-        <header>CS 555 Sprint 3</header>
+        <header>
+          CS 555 Sprint 4
+          <div className="subbbTitleRow">
+            Adham Abdelwahab, Quinn Corcoran, Daniel Kimball
+          </div>
+        </header>
+
         <h3> Loading... </h3>
       </div>
     );
@@ -22,7 +28,13 @@ export default function App() {
 
   return (
     <div>
-      <header>CS 555 Sprint 3</header>
+      <header>
+        CS 555 Sprint 4
+        <div className="subbbTitleRow">
+          Adham Abdelwahab, Quinn Corcoran, Daniel Kimball
+        </div>
+      </header>
+
       <div className="table">
         <div className="titleRow"> Individuals List </div>
         <div className="subTitleRow">
