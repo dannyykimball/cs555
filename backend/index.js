@@ -3,6 +3,17 @@ const app = express();
 var fs = require("fs");
 
 const familyData = require("./data/family");
+// Enable CORS for all methods
+app.use(function (request, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  //intercept the OPTIONS call so we don't double up on calls to the integration
+  if ("OPTIONS" === request.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+});
 
 app.get("/", async function (request, response) {
   var text = fs.readFileSync("./data/MyFamily.ged");
@@ -12,9 +23,8 @@ app.get("/", async function (request, response) {
   await familyData.clear();
   const familyHashmap = createHashmap(textByLine);
 
-  for (const [key, value] of familyHashmap.entries()) {
-    familyData.addFamily(value);
-  }
+  await familyData.addFamily(familyHashmap);
+
   response.send(await familyData.getAllFamily());
 });
 
@@ -35,6 +45,9 @@ function createHashmap(arr) {
         wholeFamily.ID = currentLine[1].replace("@", "").replace("@", "");
       }
       if (familyMember.ID != undefined) {
+        if (!familyMember.Death) {
+          familyMember.Death = "N/A";
+        }
         familyHashmap.set(
           familyMember.ID.replace("@", "").replace("@", ""),
           familyMember

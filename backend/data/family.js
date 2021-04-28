@@ -17,12 +17,17 @@ module.exports = {
 
     return family;
   },
-  async addFamily(data) {
+  async addFamily(familyHashmap) {
     const familyCollection = await familyData();
-    const insertInfo = await familyCollection.insertOne(data);
-    if (insertInfo.insertedCount === 0) throw "Could not add family";
-    const newId = insertInfo.insertedId;
-    return await this.getFamilyById(newId);
+
+    let newId;
+    for (const [key, value] of familyHashmap.entries()) {
+      let insertInfo = await familyCollection.insertOne(value);
+      if (insertInfo.insertedCount === 0) throw "Could not add family";
+      newId = insertInfo.insertedId;
+    }
+
+    // return await this.getFamilyById(newId);
   },
   async clear() {
     const familyCollection = await familyData();
