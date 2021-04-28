@@ -35,7 +35,7 @@ export default function App() {
           <div className="col">SpouseFamily</div>
           <div className="col">ChildOfFamily</div>
         </div>
-        {family.map((familyMember, i) => {
+        {family.map((familyMember) => {
           if (familyMember.ID[0] == "I") {
             return (
               <li className="row">
@@ -53,12 +53,25 @@ export default function App() {
         })}
       </div>
       <div className="table">
-        <div className="row"> Families List </div>
-        {family.map((wholeFamily, i) => {
+        <div className="titleRow"> Families List </div>
+        <div className="subTitleRow">
+          <div className="col2">ID</div>
+          <div className="col2">HusbID</div>
+          <div className="col2">HusbName</div>
+          <div className="col2">WifeID</div>
+          <div className="col2">WifeName</div>
+          <div className="col2">Children</div>
+        </div>
+        {family.map((wholeFamily) => {
           if (wholeFamily.ID[0] == "F") {
             return (
-              <li key={i}>
-                <span>{wholeFamily.ID}</span>
+              <li className="row">
+                <div className="col2">{wholeFamily.ID}</div>
+                <div className="col2">{wholeFamily.HusbID}</div>
+                <div className="col2">{wholeFamily.HusbName}</div>
+                <div className="col2">{wholeFamily.WifeID}</div>
+                <div className="col2">{wholeFamily.WifeName}</div>
+                <div className="col2">{wholeFamily.Children}</div>
               </li>
             );
           }
